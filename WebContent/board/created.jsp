@@ -1,4 +1,5 @@
 <%@ page  contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% 
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -103,7 +104,7 @@
 				<dl>
 					<dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>
 					<dd>
-						<input type="text" name="subject"
+						<input type="text" name="subject" value="${dto.subject }"
 						size="64" maxlength="100" class="boxTF">
 					</dd>
 				</dl>
@@ -114,7 +115,7 @@
 				<dl>
 					<dt>작&nbsp;성&nbsp;자</dt>
 					<dd>
-						<input type="text" name="name"
+						<input type="text" name="name" value="${dto.name }"
 						size="35" maxlength="20" class="boxTF">
 					</dd>
 				</dl>
@@ -125,7 +126,7 @@
 				<dl>
 					<dt>E&nbsp;-&nbsp;Mail</dt>
 					<dd>
-						<input type="text" name="email"
+						<input type="text" name="email" value="${dto.email }"
 						size="35" maxlength="50" class="boxTF">
 					</dd>
 				</dl>
@@ -137,7 +138,7 @@
 					<dt>내&nbsp;&nbsp;&nbsp;&nbsp;용</dt>
 					<dd>
 						<textarea rows="12" cols="63"
-						name="content" class="boxTA"></textarea>
+						name="content" class="boxTA">${dto.content }</textarea>
 					</dd>	
 				</dl>
 			</div>
@@ -147,7 +148,7 @@
 				<dl>
 					<dt>패스워드</dt>
 					<dd>
-						<input type="text" name="pwd"
+						<input type="password" name="pwd" value="${dto.pwd }"
 						size="35" maxlength="7" class="boxTF">
 						&nbsp;(게시물 수정 및 삭제시 필요!!)
 					</dd>
@@ -157,14 +158,33 @@
 			
 		</div>
 		<div id="bbsCreated_footer">
-			<input type="hidden" name="method" value="created_ok"> 
+		
+		<input type="hidden" name="num" value="${dto.num }" > 
+		<input type="hidden" name="pageNum" value="${pageNum }">
+		
+		<input type="hidden" name="mode" value="${mode }">
+		<!-- 최소한의 구분을하는 스위치 -->
+		<!-- 수정에서 왔으면 위 세개의 값을 달고 가는거답 -->
+		
+		<input type="hidden" name="method" value="created_ok"> 
+		
+		<c:if test="${mode=='insert' }">
 			<input type="button" value=" 등록하기 "
 			class="btn2" onclick="sendIt();" />
 			<input type="reset" value=" 다시입력 " 
 			class="btn2" onclick="document.myForm.subject.focus();"/>
 			<input type="button" value=" 작성취소 "
 			class="btn2" onclick="javascript:location.href='<%=cp %>/bbs.do?method=list';"/>
+		</c:if>
+		
+		<c:if test="${mode=='update' }">
+			<input type="button" value=" 수정하기 "
+			class="btn2" onclick="sendIt();" />
+			<input type="button" value=" 수정취소 "
+			class="btn2" onclick="javascript:location.href='<%=cp %>/bbs.do?method=list';"/>
+		</c:if>
 		</div>
+		
 	
 	</form>
 

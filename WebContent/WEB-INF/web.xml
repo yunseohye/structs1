@@ -26,7 +26,7 @@
   </filter-mapping>
   
   <!-- Struts1 환경셋팅 -->
-  
+  <!-- load-on-startup:2 어노테이션을 먼저 찾은 후 2순위로 찾으라는 뜻 -->
   <servlet>
   	<servlet-name>action</servlet-name>
   	<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
@@ -47,11 +47,4 @@
   </servlet-mapping>	
   <!-- /aa, /board/*, *.do --> 
  
-
-  
-  
-  
-  
-  
-  
 </web-app>

@@ -16,6 +16,9 @@
 			<forward name="created_ok" redirect="true"
 				path="/bbs.do?method=list" />
 			<forward name="list" path="/board/list.jsp" />	
+			<forward name="article" path="/board/article.jsp" />	
+			<forward name="deleted" redirect="true"
+				path="/bbs.do?method=list" />
 		</action>
 	
 	</action-mappings>
