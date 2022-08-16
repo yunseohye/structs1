@@ -6,5 +6,4 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 <sqlMap namespace="">
 
 
-
 </sqlMap>

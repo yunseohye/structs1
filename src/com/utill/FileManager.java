@@ -3,11 +3,75 @@ package com.utill;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts.upload.FormFile;
+
 public class FileManager {
+	
+	//파입 업로드 메소드
+	public static String doFileUpload(FormFile upload, String path) throws Exception {
+		
+		String newFileName;
+		
+		if(upload==null) {
+			return null;
+		}
+		
+		//클라이언트가 업로드한 파일 이름 (originalFileName)
+		String originalFileName = upload.getFileName();
+		
+		if(originalFileName.equals("")) {
+			return null;
+		}
+		
+		//확장자
+		//originalFileName이 abc.txt라면 .에서부터 끝까지(확장자)를 찾아냄
+		String fileExt = 
+				originalFileName.substring(originalFileName.lastIndexOf("."));
+		
+		if(fileExt==null || fileExt.equals("")) {
+			return null;
+		}
+		
+		//서버에 저장할 새로운 파일명 생성
+		//format안 대 소문자 구별 잘해주기
+		newFileName = String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", 
+				Calendar.getInstance());
+		
+		//nanotime까지 입력해주면 절대 시간 계삭이 중복될 수 없다.
+		newFileName += System.nanoTime(); //10의 -9승
+		
+		newFileName += fileExt;
+		
+		//업로드할 경로 생성
+		//사용자가 넘겨주는 파일 업로드 path를 넘겨줄 것임
+		
+		File f = new File(path);
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+		
+		//사용자가 보내주는 패스는 폴더까지만 있기 때문에 자세한 파일 경로까지 만들어줘야함
+		String fullFilePath = path + File.separator + newFileName;
+		
+		//struts1의 파일 업로드
+		//윗부분의 작업은 struts1이 파일을 업로드 하도록 준비해주는 작업
+		//이 부분이 struts1에서는 실제로 파일을 업로드 해주는 코딩이다.
+		byte[] fileData = upload.getFileData();
+		FileOutputStream fos = new FileOutputStream(fullFilePath);
+		fos.write(fileData);
+		fos.close();
+		
+		return newFileName;
+		
+	}
+	
+	
 	
 	//파일 다운로드 메소드
 	/*파일 다운로드에 필요한 인수.
